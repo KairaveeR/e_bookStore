@@ -1,0 +1,22 @@
+export const SliderData = [
+    {
+      image:
+        'http://localhost:3000/old_bg.jpg'
+    },
+    {
+      image:
+        'http://localhost:3000/bg.jpg'
+    },
+    {
+      image:
+        'http://localhost:3000/bck.jpg'
+    },
+    {
+      image:
+        'http://localhost:3000/slider_1.jpg'
+    },
+    {
+      image:
+        'http://localhost:3000/bck1.jpg'
+    }
+  ];

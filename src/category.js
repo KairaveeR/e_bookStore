@@ -10,7 +10,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import { Button } from "@material-ui/core";
-import userService from "./user_Service";
+import categoryService from "./category_service";
 import { toast } from "react-toastify";
 import {
   Dialog,
@@ -20,7 +20,7 @@ import {
   DialogActions,
 } from "@material-ui/core";
 
-const User = () => {
+const Category = () => {
   const classes = productStyle();
   const defaultFilter = {
     pageIndex: 1,
@@ -29,7 +29,7 @@ const User = () => {
   };
   const RecordsPerPage = [2, 5, 10, 100];
   const [filters, setFilters] = useState(defaultFilter);
-  const [userList, setUserList] = useState({
+  const [categoryRecords, setCategoryRecords] = useState({
     pageIndex: 0,
     pageSize: 10,
     totalPages: 1,
@@ -40,55 +40,36 @@ const User = () => {
   const [selectedId, setSelectedId] = useState(0);
 
   const navigate = useNavigate();
-
   useEffect(() => {
     const timer = setTimeout(() => {
       if (filters.keyword === "") delete filters.keyword;
-      getAllUsers({ ...filters });
+      searchAllCategories({ ...filters });
     }, 500);
     return () => clearTimeout(timer);
   }, [filters]);
 
-  const getAllUsers = async (filters) => {
-    await userService.getAllUsers(filters).then((res) => {
-      if (res) {
-        setUserList(res);
-      }
+  const searchAllCategories = (filters) => {
+    categoryService.getAll(filters).then((res) => {
+      setCategoryRecords(res);
     });
   };
 
-  const columns = [
-    { id: "firstName", label: "First Name", minWidth: 100 },
-    { id: "lastName", label: "Last Name", minWidth: 100 },
-    {
-      id: "email",
-      label: "Email",
-      minWidth: 170,
-    },
-    {
-      id: "roleName",
-      label: "Role",
-      minWidth: 130,
-    },
-  ];
+  const columns = [{ id: "name", label: "Category Name", minWidth: 100 }];
 
-  const onConfirmDelete = async () => {
-    await userService
-      .deleteUser(selectedId)
+  const onConfirmDelete = () => {
+    categoryService
+      .deleteCategory(selectedId)
       .then((res) => {
-        if (res) {
-          toast.success("Deleted Successfully");
-          setOpen(false);
-          setFilters({ ...filters });
-        }
+        toast.success("Delete successfully");
+        setOpen(false);
+        setFilters({ ...filters });
       })
-      .catch((e) => toast.error("Something went wrong please try again"));
+      .catch((e) => toast.error("Delete failed"));
   };
-
   return (
     <div className={classes.productWrapper}>
       <div className="container">
-        <Typography variant="h1">User</Typography>
+        <Typography variant="h1">Category</Typography>
         <div className="btn-wrapper">
           <TextField
             id="text"
@@ -100,6 +81,16 @@ const User = () => {
               setFilters({ ...filters, keyword: e.target.value, pageIndex: 1 });
             }}
           />
+          <Button
+            type="button"
+            className="btn pink-btn"
+            variant="contained"
+            color="primary"
+            disableElevation
+            onClick={() => navigate("/add_category")}
+          >
+            Add
+          </Button>
         </div>
         <TableContainer>
           <Table aria-label="simple table">
@@ -117,12 +108,9 @@ const User = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {userList?.items?.map((row, index) => (
-                <TableRow key={`${index}-${row.id}-${row.email}`}>
-                  <TableCell>{row.firstName}</TableCell>
-                  <TableCell>{row.lastName}</TableCell>
-                  <TableCell>{row.email}</TableCell>
-                  <TableCell>{row.role}</TableCell>
+              {categoryRecords?.items?.map((row, index) => (
+                <TableRow key={row.id}>
+                  <TableCell>{row.name}</TableCell>
                   <TableCell>
                     <Button
                       type="button"
@@ -131,7 +119,7 @@ const User = () => {
                       color="primary"
                       disableElevation
                       onClick={() => {
-                        navigate(`/edit_user/${row.id}`);
+                        navigate(`/edit_category/${row.id}`);
                       }}
                     >
                       Edit
@@ -149,15 +137,14 @@ const User = () => {
                     >
                       Delete
                     </Button>
-
                   </TableCell>
                 </TableRow>
               ))}
-              {!userList?.items?.length && (
+              {!categoryRecords?.items.length && (
                 <TableRow className="TableRow">
-                  <TableCell colSpan={5} className="TableCell">
+                  <TableCell colSpan={6} className="TableCell">
                     <Typography align="center" className="noDataText">
-                      No Users
+                      No Category
                     </Typography>
                   </TableCell>
                 </TableRow>
@@ -165,11 +152,10 @@ const User = () => {
             </TableBody>
           </Table>
         </TableContainer>
-
         <TablePagination
           rowsPerPageOptions={RecordsPerPage}
           component="div"
-          count={userList?.totalItems || 0}
+          count={categoryRecords?.totalItems || 0}
           rowsPerPage={filters.pageSize || 0}
           page={filters.pageIndex - 1}
           onPageChange={(e, newPage) => {
@@ -183,7 +169,6 @@ const User = () => {
             });
           }}
         />
-
         <Dialog
           open={open}
           aria-labelledby="alert-dialog-title"
@@ -220,4 +205,4 @@ const User = () => {
   );
 };
 
-export default User;
+export default Category;

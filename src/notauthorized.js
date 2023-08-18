@@ -1,6 +1,6 @@
 import './App.css';
 
-function NotFound() {
+function NotAuthorized() {
   return (
     <div className="App">
       <header className="App-header">

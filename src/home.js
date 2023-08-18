@@ -1,14 +1,14 @@
 import './App.css';
 import ImageSlider from './imageSlider';
+import { SliderData } from './SliderData';
 
 function Home() {
   return (
     <div className="App">
       <header className="App-header">
         <div className="headingwriting">
-        <h1>Image Slider Example</h1>
-        <ImageSlider />
-      Home Page Welcome to book store
+          <center>Home Page Welcome to book store</center><br></br>
+          <ImageSlider slides={SliderData} />
         </div>
       </header>
     </div>

@@ -1,39 +1,51 @@
-import React, { useState, useEffect } from 'react';
-import './App.css';
+import React, { useState , useEffect} from 'react';
+import { SliderData } from './SliderData';
+import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from 'react-icons/fa';
 
-const images = [
-  '/images/image1.jpg',
-  '/images/image2.jpg',
-  '/images/image3.jpg',
-  '/images/image4.jpg'
-];
+const ImageSlider = ({ slides }) => {
 
-function ImageSlider() {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [current, setCurrent] = useState(0);
+  const length = slides.length;
 
-  const prevImage = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+  const nextSlide = () => {
+    setCurrent(current === length - 1 ? 0 : current + 1);
   };
 
-  const nextImage = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+  const prevSlide = () => {
+    setCurrent(current === 0 ? length - 1 : current - 1);
   };
-
   useEffect(() => {
-    const slideInterval = setInterval(nextImage, 3000); // Auto slide every 3 seconds
+    // Automatically change slide every 5 seconds
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 5000); // Change this value to adjust the interval time
 
     return () => {
-      clearInterval(slideInterval);
+      clearInterval(interval);
     };
-  }, []);
+  }, [current]);
+  if (!Array.isArray(slides) || slides.length <= 0) {
+    return null;
+  }
 
   return (
-    <div className="slider-container">
-      <button onClick={prevImage}>Previous</button>
-      <img src={images[currentImageIndex]} alt={`Image ${currentImageIndex + 1}`} />
-      <button onClick={nextImage}>Next</button>
-    </div>
+    <section className='slider'>
+      <FaArrowAltCircleLeft className='left-arrow' onClick={prevSlide} />
+      <FaArrowAltCircleRight className='right-arrow' onClick={nextSlide} />
+      {SliderData.map((slide, index) => {
+        return (
+          <div
+            className={index === current ? 'slide active' : 'slide'}
+            key={index}
+          >
+            {index === current && (
+              <img src={slide.image} alt='travel image' className='image' />
+            )}
+          </div>
+        );
+      })}
+    </section>
   );
-}
+};
 
 export default ImageSlider;

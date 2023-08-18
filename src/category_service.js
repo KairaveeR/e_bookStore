@@ -1,6 +1,6 @@
 import request from "./request";
 
-const ENDPOINT = "https://book-e-sell-node-api.vercel.app/api/book";
+const ENDPOINT = "api/category";
 
 const getAll = async (params) => {
   let url = `${ENDPOINT}/all`;

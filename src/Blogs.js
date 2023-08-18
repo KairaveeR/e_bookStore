@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import productStyle from "./books_style";
+import { toast , ToastContainer } from "react-toastify";
 import './App.css';
 import {
   FormControl,
@@ -14,10 +15,14 @@ import { Pagination } from "@material-ui/lab";
 // import { useAuthContext } from "../../context/auth";
 import { materialCommonStyles } from "./materialCommonStyles";
 //import { defaultFilter } from "./book_Service";
+import { useCartContext } from "./context/cartContext";
 import categoryService from "./category_service";
 import bookService from "./book_Service";
+import shared from "./shared";
 
 const Blogs = () => {
+  const data = localStorage.getItem('userInfo');
+  const userInfo = JSON.parse(data || '{}');
   const [book, setBooks] = useState({
     pageIndex: 0,
     pageSize: 5,
@@ -30,6 +35,7 @@ const Blogs = () => {
     pageSize: 5,
     keyword: "",
   };
+  const cartContext = useCartContext();
   const [categories, setCategories] = useState([]);
   const [filters, setFilters] = useState(defaultFilter);
   const classes = productStyle();
@@ -80,16 +86,16 @@ const Blogs = () => {
     return [];
   }, [categories, bookResponse]);
 
-  //   const addToCart = (book) => {
-  //     Shared.addToCart(book, authContext.user.id).then((res) => {
-  //       if (res.error) {
-  //         toast.error(res.message);
-  //       } else {
-  //         toast.success(res.message);
-  //         cartContext.updateCart();
-  //       }
-  //     });
-  //   };
+  const addToCart = (book) => {
+    shared.addToCart(book, userInfo.id).then((res) => {
+      if (res.error) {
+        toast.error("something went wrong");
+      } else {
+        toast.success("Item added in cart");
+        cartContext.updateCart();
+      }
+    });
+  };
 
   const sortBooks = (e) => {
     setSortBy(e.target.value);
@@ -111,6 +117,7 @@ const Blogs = () => {
   return (
     <div className="div_bg">
       <div className="header_div">
+        <ToastContainer />
         <center><Typography variant="h3">Book Listing</Typography></center>
       </div>
       <div className="container_div">
@@ -173,6 +180,15 @@ const Blogs = () => {
               <p className="bookDescription">{book.category}</p>
               <p className="bookDescription">{book.description}</p>
               <p className="bookDescription">MRP &#8377; {book.price}</p>
+              <button className="MuiButtonBase-root MuiButton-root MuiButton-contained btn pink-btn MuiButton-containedPrimary MuiButton-disableElevation">
+                      <span
+                        className="MuiButton-label"
+                        onClick={() => addToCart(book)}
+                      >
+                        ADD TO CART
+                      </span>
+                      <span className="MuiTouchRipple-root"></span>
+                    </button>
             </div>
           ))}
           {/* <Button variant="contained" color="primary" onClick={submitHandler}>Submit</Button> */}

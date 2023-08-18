@@ -19,8 +19,14 @@ import useStyles from './style';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import AuthWrapper, { AuthContext } from './context/authContext';
 import EditBook from './edit';
+import EditUser from './edit_user';
 import NotAuthorized from './notauthorized';
+import Category from './category';
+import EditCategory from './edit_category';
 import Cookies from 'js-cookie';
+import Cart from './cart';
+import {CartWrapper} from './context/cartContext';
+import './App.css';
 
 const style = {
   position: 'absolute',
@@ -64,11 +70,13 @@ function RoutesComponent() {
         <div className="div_two">
           {userInfo.email ?(
             <>
-              <Link to="/" style={{ color: "#C5DFF8", borderColor: "#C5DFF8", fontSize: '24px', padding: "10px", textDecoration: "none" }}>Home</Link>
+              
               <Link to="/About" style={{ color: "#C5DFF8", borderColor: "#C5DFF8", fontSize: '24px', padding: "10px", textDecoration: "none" }}>Books</Link>
               <Link to="/Store" style={{ color: "#C5DFF8", borderColor: "#C5DFF8", fontSize: '24px', padding: "10px", textDecoration: "none" }}>Search</Link>
               <Link to="/Blogs" style={{ color: "#C5DFF8", borderColor: "#C5DFF8", fontSize: '24px', padding: "10px", textDecoration: "none" }}>BookListing</Link>
               <Link to="/User" style={{ color: "#C5DFF8", borderColor: "#C5DFF8", fontSize: '24px', padding: "10px", textDecoration: "none" }}>User</Link>
+              <Link to="/Category" style={{ color: "#C5DFF8", borderColor: "#C5DFF8", fontSize: '24px', padding: "10px", textDecoration: "none" }}>Category</Link>
+              <Link to="/cart" style={{ color: "#C5DFF8", borderColor: "#C5DFF8", fontSize: '24px', padding: "10px", textDecoration: "none" }}>Cart</Link>
             </>
           ) :
           (
@@ -121,6 +129,11 @@ function RoutesComponent() {
         <Route path="/edit_book/:id" element= {<EditBook/>} />
         <Route path="/add_book" element={<EditBook/>} />
         <Route path="/notauthorized" element={<NotAuthorized />} />
+        <Route path="/edit_user/:id" element={<EditUser />} />
+        <Route path="/Category" element={<Category/>}/>
+        <Route path="/edit_category/:id" element={<EditCategory/>} />
+        <Route path="/cart" element={<Cart/>} />
+        <Route path="/add_category" element={<EditCategory/>} />
       </Routes>
     </>
   )
@@ -129,7 +142,9 @@ function App() {
   return (
     <BrowserRouter>
       <AuthWrapper>
+        <CartWrapper>
         <RoutesComponent />
+        </CartWrapper>
       </AuthWrapper>
     </BrowserRouter>
   );
