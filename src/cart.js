@@ -6,6 +6,7 @@ import orderService from "./order_Service";
 import { useCartContext } from "./context/cartContext";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import './App.css'
 
 const Cart = () => {
     const data = localStorage.getItem('userInfo');
@@ -104,32 +105,35 @@ const Cart = () => {
     };
   
     return (
-      <div className={classes.cartWrapper}>
+      <div className="div_bg">
+        <div className="div_center">
         <ToastContainer />
         <div className="container">
-          <Typography variant="h1">Cart page</Typography>
+          <center><Typography variant="h1">Cart page</Typography></center>
           <div className="cart-heading-block">
             <Typography variant="h2">
-              My Shopping Bag ({itemsInCart} Items)
+             <center>My Shopping Bag ({itemsInCart} Items)</center>
             </Typography>
             <div className="total-price">Total price: {totalPrice}</div>
           </div>
-          <div className="cart-list-wrapper">
+          <div className="inner-wrappe">
+            <div className="product-list-inner-wrapper">
             {cartList.map((cartItem) => {
               return (
-                <div className="cart-list-item" key={cartItem.id}>
+                <div className="product-list" key={cartItem.id}>
+                  <center>
                   <div className="cart-item-img">
                     <Link>
                       <img src={cartItem.book.base64image} alt="dummy-pic" />
                     </Link>
                   </div>
-                  <div className="cart-item-content">
+                  <div className="cart-item-content"><br/>
                     <div className="cart-item-top-content">
                       <div className="cart-item-left">
                         <p className="brand">{cartItem.book.name}</p>
                         <Link>Cart item name</Link>
                       </div>
-                      <div className="price-block">
+                      <div className="price-block"><br/>
                         <span className="current-price">
                           MRP &#8377; {cartItem.book.price}
                         </span>
@@ -141,28 +145,31 @@ const Cart = () => {
                           className="btn pink-btn"
                           onClick={() => updateQuantity(cartItem, true)}
                         >
-                          +
+                          <div className="sign">+</div>
                         </Button>
                         <span className="number-count">{cartItem.quantity}</span>
                         <Button
                           className="btn pink-btn"
                           onClick={() => updateQuantity(cartItem, false)}
                         >
-                          -
+                           <div className="sign">-</div>
                         </Button>
                       </div>
-                      <Link onClick={() => removeItem(cartItem.id)}>Remove</Link>
+                      <Link  className="remove" onClick={() => removeItem(cartItem.id)}>Remove</Link>
                     </div>
                   </div>
+                  </center>
                 </div>
               );
             })}
+            </div>
           </div>
-          <div className="btn-wrapper">
-            <Button className="btn pink-btn" onClick={placeOrder}>
+          <div className="btn_final">
+            <Button className="btn_order" onClick={placeOrder}>
               Place order
             </Button>
           </div>
+        </div>
         </div>
       </div>
     );

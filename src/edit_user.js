@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import productStyle from "./books_style";
 import * as Yup from "yup";
 import { materialCommonStyles } from "./materialCommonStyles";
+import './App.css';
 import {
   Typography,
   TextField,
@@ -16,6 +17,7 @@ import userService from "./user_Service";
 import { Formik , ErrorMessage} from "formik";
 import { FormHelperText } from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
+
 
 const EditUser = () => {
   const [roles, setRoles] = useState([]);
@@ -101,7 +103,8 @@ const EditUser = () => {
       ));
   };
   return (
-    <div className={classes.editUserWrapper}>
+    <div className="div_bg">
+      <div className="div_center">
       <div className="container">
       <ToastContainer/>
         <Typography variant="h1">Edit User</Typography>
@@ -194,7 +197,8 @@ const EditUser = () => {
                     </FormControl>
                   </div>
               </div>
-              <div className="btn-wrapper">
+              <div className="btn">
+                <div className="btn-wrapper">
                 <Button
                   className="green-btn btn"
                   variant="contained"
@@ -204,6 +208,8 @@ const EditUser = () => {
                 >
                   Save
                 </Button>
+                </div>
+                <div className="btn1"></div>
                 <Button
                   className="pink-btn btn"
                   variant="contained"
@@ -220,6 +226,7 @@ const EditUser = () => {
             </form>
           )}
         </Formik>
+      </div>
       </div>
     </div>
   );

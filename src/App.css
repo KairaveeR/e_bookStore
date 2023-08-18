@@ -173,16 +173,62 @@
   position: static;
   align-items: center;
 }
+.price-block{
+  font-size: 20px;
+  font-weight: 400;
+  padding: 20px;
+}
 
 @media screen and (max-width: 768px) {
   body{
     font-size: 16px;
   }
 }
+.btn_final{
+  width:"300px";
+  background-color: #C5DFF8;
+  color: #fff;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+.btn_order{
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  background-color: #213555;
+  color:#fff;
+}
 .link{
     color: #ffffff;
     font-size: 2em;
     position: static;
+ }
+ .qty-group{
+  background-color: #213555;
+  color:#fff;
+ }
+ .sign{
+  color:#fff;
+ }
+ .bookImage{
+  height:300px;
+  width:300px;
+  position: relative;
+ }
+ .remove{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #213555;
+  margin: 10px;
+  font-size: 20px;
+  padding: 20px;
+ }
+ .total-price{
+  font-size: 28px;
+  color:#213555;
+  margin: 20px;
  }
 .links{
   display: flex;
